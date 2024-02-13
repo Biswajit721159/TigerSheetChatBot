@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { countLeave, LeaveEmployeeName, getEmployeeCountByYear, getEmployeeNameByYear } from '../BackendConnection/DataBaseConnection'
+import { getEmployeeCountByDate, getEmployeeNameByDate, getEmployeeCountByYear, getEmployeeNameByYear } from '../BackendConnection/DataBaseConnection'
 
 const openai = new OpenAI({
     apiKey: process.env.REACT_APP_ChatGptApiKey,
@@ -22,11 +22,11 @@ export async function get_answer(question) {
     today = yyyy + '-' + mm + '-' + dd;
 
     try {
-        let messages = [{ 'role': 'user', 'content': question }];
+        // let messages = [{ 'role': 'user', 'content': question }];
 
         const functions = [
             {
-                "name": "countLeave",
+                "name": "getEmployeeCountByDate",
                 "description": `The function responds to user inquiries about the number of employees or persons who have taken leave on a particular date.Remember the today's date is ${today}`,
                 "parameters": {
                     "type": "object",
@@ -40,7 +40,7 @@ export async function get_answer(question) {
                 }
             },
             {
-                "name": "LeaveEmployeeName",
+                "name": "getEmployeeNameByDate",
                 "description": `The function triggers a response solely in response to user inquiries about the name of employee or person who have taken leave on a particular date or day. Remember the today's date is ${today}.It processes the user-provided date, return it into the standard format 'year-month-day' (e.g., 2024-02-23)  `,
                 "parameters": {
                     "type": "object",
@@ -95,8 +95,8 @@ export async function get_answer(question) {
 
         if (responseMessage.function_call) {
             const availableFunctions = {
-                "countLeave": countLeave,
-                'LeaveEmployeeName': LeaveEmployeeName,
+                "getEmployeeCountByDate": getEmployeeCountByDate,
+                'getEmployeeNameByDate': getEmployeeNameByDate,
                 "getEmployeeCountByYear": getEmployeeCountByYear,
                 "getEmployeeNameByYear": getEmployeeNameByYear,
             };

@@ -21,7 +21,7 @@ const ChatHeader = (props) => {
     // }
     return (
         <>
-            <h3 className="card-title">Direct Chat</h3>
+            <h3 className="card-title">TigerSheet Chat</h3>
             <div className="card-tools">
                 {/* {bodyColor === "Dark" ? <MdOutlineLightMode className="mr-2" size={'20px'} onClick={() => giveBodyColor('Dark')} /> : <MdDarkMode className="mr-2" size={'20px'} onClick={() => giveBodyColor('Light')} />} */}
                 <span data-toggle="tooltip" title="3 New Messages" className="badge badge-light">{props.length}</span>

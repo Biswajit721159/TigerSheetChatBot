@@ -54,6 +54,9 @@ const ChatBot = () => {
   }
 
   const handelEnter = async (e) => {
+    if(loader==true){
+      return
+    }
     if (e.key === 'Enter') {
       submit()
     }
@@ -79,7 +82,7 @@ const ChatBot = () => {
       </div>
       <div className="card-footer">
         <div className="input-group">
-          <input type="text" name="message" disabled={loader} onChange={(e) => setinput(e.target.value)} value={input} onKeyDown={handelEnter} placeholder="Type Message ..." className="form-control" />
+          <input type="text" name="message" onChange={(e) => setinput(e.target.value)} value={input} onKeyDown={handelEnter} placeholder="Type Message ..." className="form-control" />
           <span className="input-group-append">
             <button type="button" onClick={submit} disabled={loader} className="btn btn-primary">Send</button>
           </span>

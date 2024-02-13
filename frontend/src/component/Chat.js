@@ -18,10 +18,8 @@ const Chat = (props) => {
                             </div>
                             <img className="direct-chat-img" src={tigersheet_logo} alt="message" />
                             <div className="direct-chat-text">
-                                <pre className='codecopy txt'>
-                                    <code className="txt language-cpp">
-                                        {data.content}
-                                    </code>
+                                <pre className='pretext'>
+                                    {data.content}
                                 </pre>
                             </div>
                         </div> :
@@ -31,11 +29,12 @@ const Chat = (props) => {
                                 <span className="direct-chat-timestamp float-left">{data.time}</span>
                             </div>
                             <img className="direct-chat-img" src={user_logo} alt="message" />
-                            <div className="direct-chat-text">
-                                {data.content}
+                            <div className="direct-chat-text" style={{backgroundColor:'#D7DBDD'}}>
+                                <pre className='pretext'>
+                                    {data.content}
+                                </pre>
                             </div>
                         </div>
-
                 ))
             }
         </>
