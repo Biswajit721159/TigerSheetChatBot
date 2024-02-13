@@ -91,7 +91,7 @@ export async function get_answer(question) {
         });
 
         const responseMessage = response.choices[0].message;
-        console.log("first responce is ", responseMessage);
+        // console.log("first responce is ", responseMessage);
 
         if (responseMessage.function_call) {
             const availableFunctions = {
