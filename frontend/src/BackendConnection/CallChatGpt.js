@@ -80,7 +80,8 @@ export async function get_answer(question) {
             // return secondResponse.choices[0].message.content;
         } else {
             // console.log("not other function called ", responseMessage.content)
-            return responseMessage.content;
+            // return responseMessage.content;
+            return "We are not getting any results while processing your request"
         }
     } catch {
         return "Your maximum context is reached. Please refresh this page and write your query again."

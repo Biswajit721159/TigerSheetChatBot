@@ -22,7 +22,7 @@ export async function getEmployeeNameByTwoDate(date){
            'startdate':date.startdate,
            'lastdate':date.lastdate
         };
-        console.log(requestBody)
+        // console.log(requestBody)
         let responce = await axios.post(`${api}/Leave/getEmployeeNameByTwoDate`,requestBody)
         if(responce.data.length===0) return "We are unable to process your question currently."
         else return responce.data
