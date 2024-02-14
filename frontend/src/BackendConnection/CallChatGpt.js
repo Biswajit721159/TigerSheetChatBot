@@ -37,7 +37,7 @@ export async function get_answer(question) {
         });
 
         const responseMessage = response.choices[0].message;
-        console.log("first responce is ", responseMessage);
+        // console.log("first responce is ", responseMessage);
 
         if (responseMessage.function_call) {
             const availableFunctions = {
@@ -53,7 +53,7 @@ export async function get_answer(question) {
             const functionArgs = JSON.parse(responseMessage.function_call.arguments);
             const functionResponse = await functionToCall(functionArgs);
 
-            console.log("responce coming from tiggersheet backend  ", functionResponse)
+            // console.log("responce coming from tiggersheet backend  ", functionResponse)
 
             conversationHistory.push({
                 'role': 'assistant',
@@ -79,7 +79,7 @@ export async function get_answer(question) {
             // console.log("second responce is ",secondResponse.choices[0].message.content)
             // return secondResponse.choices[0].message.content;
         } else {
-            console.log("not other function called ", responseMessage.content)
+            // console.log("not other function called ", responseMessage.content)
             return responseMessage.content;
         }
     } catch {
