@@ -1,5 +1,13 @@
 import OpenAI from "openai";
-import { getEmployeeCountByDate, getEmployeeNameByDate, getEmployeeCountByYear, getEmployeeNameByYear } from '../BackendConnection/DataBaseConnection'
+import {
+    getEmployeeCountByDate,
+    getEmployeeNameByDate,
+    getEmployeeCountByYear,
+    getEmployeeNameByYear,
+    getEmployeeCountByTwoDate,
+    getEmployeeNameByTwoDate
+} from '../BackendConnection/DataBaseConnection'
+import { functiondata } from '../BackendConnection/Function'
 
 const openai = new OpenAI({
     apiKey: process.env.REACT_APP_ChatGptApiKey,
@@ -15,73 +23,11 @@ export async function get_answer(question) {
         'content': question
     })
 
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0');
-    var yyyy = today.getFullYear();
-    today = yyyy + '-' + mm + '-' + dd;
 
     try {
         // let messages = [{ 'role': 'user', 'content': question }];
 
-        const functions = [
-            {
-                "name": "getEmployeeCountByDate",
-                "description": `The function responds to user inquiries about the number of employees or persons who have taken leave on a particular date.Remember the today's date is ${today}`,
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "date": {
-                            "type": "string",
-                            "description": "The date in 'year-month-day' format (e.g., 2024-02-23)"
-                        }
-                    },
-                    "required": [" date in 'year-month-day' format (e.g., 2024-02-23)"]
-                }
-            },
-            {
-                "name": "getEmployeeNameByDate",
-                "description": `The function triggers a response solely in response to user inquiries about the name of employee or person who have taken leave on a particular date or day. Remember the today's date is ${today}.It processes the user-provided date, return it into the standard format 'year-month-day' (e.g., 2024-02-23)  `,
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "date": {
-                            "type": "string",
-                            "description": "The date in 'year-month-day' format. Example: 2024-02-23"
-                        }
-                    },
-                    "required": [" date in 'year-month-day' format (e.g., 2024-02-23)"]
-                }
-            },
-            {
-                "name": "getEmployeeNameByYear",
-                "description": `The function triggers a response solely in response to user inquiries about the name of employee or person who have taken leave on a year. Remember we are now in ${yyyy}.It processes the user-provided date, return it into the standard format 'year' (e.g., 2024 ,2023 ,2022)  `,
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "year": {
-                            "type": "string",
-                            "description": "The year in 'year' format. Example: 2024 ,2023"
-                        }
-                    },
-                    "required": [" year in 'year' format (e.g., 2024 , 2023, 2024)"]
-                }
-            },
-            {
-                "name": "getEmployeeCountByYear",
-                "description": `The function triggers a response solely in response to user inquiries about the count of employee or person who have taken leave on a year. Remember we are now in ${yyyy}.It processes the user-provided date, return it into the standard format 'year' (e.g., 2024 ,2023 ,2022)  `,
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "year": {
-                            "type": "string",
-                            "description": "The year in 'year' format. Example: 2024 ,2023"
-                        }
-                    },
-                    "required": [" year in 'year' format (e.g., 2024 , 2023, 2024)"]
-                }
-            }
-        ];
+        const functions = functiondata
 
         const response = await openai.chat.completions.create({
             model: "gpt-3.5-turbo-0613",
@@ -91,7 +37,7 @@ export async function get_answer(question) {
         });
 
         const responseMessage = response.choices[0].message;
-        // console.log("first responce is ", responseMessage);
+        console.log("first responce is ", responseMessage);
 
         if (responseMessage.function_call) {
             const availableFunctions = {
@@ -99,13 +45,15 @@ export async function get_answer(question) {
                 'getEmployeeNameByDate': getEmployeeNameByDate,
                 "getEmployeeCountByYear": getEmployeeCountByYear,
                 "getEmployeeNameByYear": getEmployeeNameByYear,
+                "getEmployeeCountByTwoDate": getEmployeeCountByTwoDate,
+                "getEmployeeNameByTwoDate": getEmployeeNameByTwoDate
             };
             const functionName = responseMessage.function_call.name;
             const functionToCall = availableFunctions[functionName];
             const functionArgs = JSON.parse(responseMessage.function_call.arguments);
             const functionResponse = await functionToCall(functionArgs);
 
-            // console.log("responce coming from tiggersheet backend  ", functionResponse)
+            console.log("responce coming from tiggersheet backend  ", functionResponse)
 
             conversationHistory.push({
                 'role': 'assistant',
