@@ -83,7 +83,7 @@ export async function get_answer(question) {
             return responseMessage.content;
         }
     } catch {
-        return "We are unable to process your question currently."
+        return "Your maximum context is reached. Please refresh this page and write your query again."
     }
 }
 
