@@ -237,9 +237,10 @@ const getEmployeeNameByDate = async (req, res) => {
         if (data.length == 0) return res.send(`We are not found person who are leave in ${date}`)
         let name = `Those Person who are Leave on ${date} is: `
         name += '\n'
+        console.log(data)
         for (let i = 0; i < data?.length; i++) {
             if (data[i]?.Employee) {
-                name += `${i + 1}. ${data[i].Employee}`
+                name += `${i + 1}. ${data[i].Employee}(${data[i]['Leave type']})`
                 name += '\n'
             }
         }

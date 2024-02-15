@@ -54,7 +54,7 @@ const ChatBot = () => {
   }
 
   const handelEnter = async (e) => {
-    if(loader==true){
+    if(loader===true){
       return
     }
     if (e.key === 'Enter') {
